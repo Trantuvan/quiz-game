@@ -132,12 +132,12 @@ func gameLoop(quizzes []quiz, done <-chan bool) {
 
 func timer(done chan<- bool, timeOut int) {
 	ticker := time.NewTicker(1 * time.Second)
+	defer ticker.Stop()
 	startTime := time.Now()
 
 	for range ticker.C {
 		if int(time.Since(startTime)/time.Second) >= timeOut {
 			done <- true
-			ticker.Stop()
 			return
 		} else {
 			done <- false
